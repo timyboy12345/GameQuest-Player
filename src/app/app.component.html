@@ -1,5 +1,7 @@
-<nav class="p-4 text-center bg-indigo-800 dark:bg-indigo-900 text-white mb-4 lg:mb-8 shadow-lg">
+<nav
+  class="p-4 text-center bg-indigo-800 dark:bg-indigo-900 text-white mb-4 lg:mb-8 shadow-lg flex flex-row justify-center items-center">
   <div class="text-lg font-bold">GameQuest</div>
+  <div *ngIf="authService.user" class="ml-2">{{ authService.user.name }}</div>
 </nav>
 
 <div class="m-4 lg:m-8 xl:m-12">

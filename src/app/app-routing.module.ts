@@ -12,6 +12,10 @@ const routes: Routes = [
     loadChildren: () => import('./bards/bards.module').then(m => m.BardsModule)
   },
   {
+    path: "oauth",
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
+  },
+  {
     path: "**",
     redirectTo: "/home",
     pathMatch: "full"

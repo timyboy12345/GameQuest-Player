@@ -13,6 +13,8 @@
 
 <app-ending *ngIf="game && game.state == 'ending'" [game]="game"></app-ending>
 
+<app-finished *ngIf="game && game.state == 'finished'" [game]="game"></app-finished>
+
 <app-error *ngIf="error" [error]="error"></app-error>
 
 <div class="flex flex-row justify-end" *ngIf="game">

@@ -1,6 +1,6 @@
 <h2 class="text-lg text-indigo-800 dark:text-white font-bold mb-4">Games</h2>
 
-<div class="flex flex-col">
+<div class="flex flex-col mb-4">
   <div class="rounded rounded bg-white dark:bg-gray-900 shadow overflow-hidden">
     <div class="h-4 w-full bg-black"></div>
     <div class="p-4">
@@ -27,6 +27,21 @@
           </a>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!authService.isLoggedIn" class="rounded bg-indigo-700 cursor-pointer px-4 py-2" (click)="login()">
+  Inloggen
+</div>
+
+<div *ngIf="authService.isLoggedIn">
+  <h2 class="text-lg font-bold mt-8 mb-2">Jouw games</h2>
+  <div class="flex flex-col rounded overflow-hidden">
+    <div *ngFor="let game of games" [routerLink]="['/bards/controller', game.id]"
+         class="p-4 bg-white cursor-pointer hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-black">
+      <h2 class="text-lg">{{ game.type }}</h2>
+      <h3 class="text-sm text-gray-600">{{ game.code }} / {{ game.state }}</h3>
     </div>
   </div>
 </div>

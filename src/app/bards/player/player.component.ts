@@ -11,7 +11,6 @@ import {BardsGame} from "../../_interfaces/bards.interface";
   styleUrls: ['./player.component.scss']
 })
 export class PlayerComponent implements OnInit {
-  private game_id = "2ab576f5-7420-3272-ae92-a0577f80c45b";
   public player: BardsPlayer;
   public game: BardsGame;
 
@@ -31,9 +30,6 @@ export class PlayerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listenerService.setPlayerUuid("TEST1");
-    this.listenerService.subscribe(this.game_id);
-
     this.listenerService.listen().subscribe(value => {
       console.log(value);
 
@@ -43,6 +39,11 @@ export class PlayerComponent implements OnInit {
         if (value.message.player.id == this.player.id) {
           this.question = value.message.question;
         }
+      }
+
+      if (value.message.type == MessageTypes.GAME_STARTED) {
+        this.question = null;
+        this.game.state = 'playing';
       }
 
       if (value.message.type == MessageTypes.GAME_ENDED) {

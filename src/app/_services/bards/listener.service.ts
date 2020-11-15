@@ -56,8 +56,14 @@ export class ListenerService {
   }
 
   public endGame(channel: string) {
-    this.publish({
+    return this.publish({
       type: MessageTypes.GAME_ENDED
+    }, channel);
+  }
+
+  public startGame(channel: string) {
+    return this.publish({
+      type: MessageTypes.GAME_STARTED
     }, channel);
   }
 
@@ -72,5 +78,6 @@ export class ListenerService {
 export enum MessageTypes {
   "NEW_QUESTION" = "NEW_QUESTION",
   "PLAYER_JOINED" = "PLAYER_JOINED",
-  "GAME_ENDED" = "GAME_ENDED"
+  "GAME_STARTED" = "GAME_STARTED",
+  "GAME_ENDED" = "GAME_ENDED",
 }

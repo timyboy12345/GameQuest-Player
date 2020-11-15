@@ -13,6 +13,7 @@ import { QuestionComponent } from './player/question/question.component';
 import { JoinComponent } from './player/join/join.component';
 import { EndComponent } from './player/end/end.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import { JoinedComponent } from './player/joined/joined.component';
 
 const routes: Routes = [
   {
@@ -20,7 +21,7 @@ const routes: Routes = [
     component: PlayerComponent
   },
   {
-    path: "controller",
+    path: "controller/:game_id",
     component: ControllerComponent
   },
   {
@@ -42,7 +43,8 @@ const routes: Routes = [
     ErrorComponent,
     QuestionComponent,
     JoinComponent,
-    EndComponent
+    EndComponent,
+    JoinedComponent
   ],
     imports: [
         CommonModule,

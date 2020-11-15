@@ -7,6 +7,8 @@ import {QuestionsService} from "../../_services/bards/questions.service";
 import {BardQuestionType, BoardQuestionGroupType} from "../../_interfaces/bards_question.interface";
 import {BardsPlayer} from "../../_interfaces/bards_player.interface";
 import {environment} from "../../../environments/environment";
+import {ActivatedRoute} from "@angular/router";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-controller',
@@ -17,17 +19,19 @@ export class ControllerComponent implements OnInit {
   public game?: BardsGame;
   public readonly min_player_count = environment.BARDS_MIN_PLAYER_COUNT;
 
-  private game_id: string = "2ab576f5-7420-3272-ae92-a0577f80c45b";
   public error: any;
 
   constructor(public listenerService: ListenerService,
               private gameService: GameService,
               private questionService: QuestionService,
-              private questionsService: QuestionsService) {
+              private questionsService: QuestionsService,
+              private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.gameService.get(this.game_id)
+    const game_id = this.activatedRoute.snapshot.paramMap.get('game_id');
+
+    this.gameService.get(game_id)
       .then((value: BardsGame) => {
         this.game = value;
 
@@ -40,11 +44,19 @@ export class ControllerComponent implements OnInit {
           }
         })
       })
-      .catch(reason => {
+      .catch((reason: HttpErrorResponse) => {
         console.error(reason);
-        reason.i18_message = "Er ging iets fout bij het ophalen van het spel";
-        reason.i18_description = "Het zou kunnen dat onze server wordt geupdate, maar het zou ook kunnen dat jij geen internet hebt.";
-        this.error = reason;
+        let obj: any = reason;
+
+        if (reason.status == 404) {
+          obj.i18_message = "Spel niet gevonden";
+          obj.i18_description = "Er zijn geen spellen met dit ID gevonden.";
+        } else {
+          obj.i18_message = "Er ging iets fout bij het ophalen van het spel";
+          obj.i18_description = "Het zou kunnen dat onze server wordt geupdate, maar het zou ook kunnen dat jij geen internet hebt.";
+        }
+
+        this.error = obj;
       })
   }
 
@@ -55,6 +67,8 @@ export class ControllerComponent implements OnInit {
   public startGame() {
     if (this.game.players && this.game.players.length >= this.min_player_count) {
       this.game.state = "starting";
+
+      this.listenerService.startGame(this.game.id);
 
       const questions = this.questionService.get(this.game.players.length * 3);
 

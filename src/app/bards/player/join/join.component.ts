@@ -5,6 +5,7 @@ import {ListenerService} from "../../../_services/bards/listener.service";
 import {GameService} from "../../../_services/game.service";
 import * as uuid from 'uuid';
 import {BardsPlayer} from "../../../_interfaces/bards_player.interface";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-join',
@@ -61,11 +62,13 @@ export class JoinComponent implements OnInit {
           this.player.id = player.id;
           this.player.name = player.name;
 
-          console.log(game);
+          this.listenerService.subscribe(this.game.id);
+          this.listenerService.setPlayerUuid(this.player.id);
         })
       })
-      .catch((e) => {
+      .catch((e: HttpErrorResponse) => {
         this.joinForm.enable();
+        window.alert(e.message);
       });
   }
 }

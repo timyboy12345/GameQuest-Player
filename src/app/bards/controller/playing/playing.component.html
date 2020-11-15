@@ -8,11 +8,11 @@
 </div>
 
 <div class="flex flex-row justify-end" *ngIf="game">
-  <div class="rounded py-2 px-4 cursor-pointer bg-gray-800 hover:bg-gray-900 dark:bg-gray-700 dark:hover:bg-gray-800 transition duration-100 text-white" (click)="nextQuestion()"
+  <div class="rounded py-2 px-4 cursor-pointer bg-gray-800 hover:bg-gray-900 dark:bg-indigo-700 dark:hover:bg-indigo-800 transition duration-100 text-white" (click)="nextQuestion()"
        *ngIf="this.selectedQuestionIndex < this.game.data.questions.length - 1">
     Volgende vraag
   </div>
-  <div class="rounded py-2 px-4 cursor-pointer bg-gray-800 hover:bg-gray-900 dark:bg-gray-700 dark:hover:bg-gray-800 transition duration-100 text-white" (click)="endGame()"
+  <div class="rounded py-2 px-4 cursor-pointer bg-gray-800 hover:bg-gray-900 dark:bg-indigo-700 dark:hover:bg-indigo-800 transition duration-100 text-white" (click)="endGame()"
        *ngIf="this.selectedQuestionIndex >= this.game.data.questions.length - 1">
     Spel beëindigen
   </div>

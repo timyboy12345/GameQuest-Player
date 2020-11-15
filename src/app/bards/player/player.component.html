@@ -1,6 +1,8 @@
 <app-join *ngIf="!game || game.id == null" [game]="game" [player]="player"></app-join>
 
-<app-question *ngIf="question" [question]="question"></app-question>
+<app-joined *ngIf="game && game.state == 'queue'"></app-joined>
+
+<app-question *ngIf="game && game.state == 'playing' && question" [question]="question"></app-question>
 
 <app-end *ngIf="game && game.state == 'ended'" [game]="game"></app-end>
 

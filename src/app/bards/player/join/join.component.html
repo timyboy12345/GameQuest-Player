@@ -1,18 +1,18 @@
-<div class="rounded bg-white shadow p-4">
+<div class="rounded bg-white dark:bg-gray-900 shadow p-4">
   <h1>Spel joinen</h1>
 
   <form [formGroup]="joinForm" (ngSubmit)="submit()">
     <div class="my-2 flex flex-col">
-      <label class="text-sm" for="code">Code</label>
-      <input class="rounded border border-gray-200 p-1" id="code" placeholder="Code" type="text" formControlName="code">
+      <label class="text-sm mb-1" for="code">Code</label>
+      <input class="rounded border border-gray-200 p-1 dark:bg-gray-600 dark:border-gray-700" id="code" placeholder="Code" type="text" formControlName="code">
     </div>
 
     <div class="my-2 flex flex-col">
-      <label class="text-sm" for="name">Gebruikersnaam</label>
-      <input class="rounded border border-gray-200 p-1" id="name" placeholder="Username" type="text" formControlName="name">
+      <label class="text-sm mb-1" for="name">Gebruikersnaam</label>
+      <input class="rounded border border-gray-200 p-1 dark:bg-gray-600 dark:border-gray-700" id="name" placeholder="Username" type="text" formControlName="name">
     </div>
 
-    <button type="submit" class="rounded bg-gray-900 text-white px-4 py-2 mb-4">
+    <button type="submit" class="rounded bg-gray-900 dark:bg-indigo-700 dark:hover:bg-indigo-800 text-white px-4 py-2 mt-4">
       Meedoen
     </button>
   </form>

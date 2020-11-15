@@ -547,6 +547,11 @@ video {
   background-color: rgba(185, 28, 28, var(--bg-opacity));
 }
 
+.bg-indigo-700 {
+  --bg-opacity: 1;
+  background-color: rgba(67, 56, 202, var(--bg-opacity));
+}
+
 .bg-indigo-800 {
   --bg-opacity: 1;
   background-color: rgba(55, 48, 163, var(--bg-opacity));
@@ -560,6 +565,11 @@ video {
 .hover\:bg-red-800:hover {
   --bg-opacity: 1;
   background-color: rgba(153, 27, 27, var(--bg-opacity));
+}
+
+.hover\:bg-indigo-800:hover {
+  --bg-opacity: 1;
+  background-color: rgba(55, 48, 163, var(--bg-opacity));
 }
 
 @media (prefers-color-scheme: dark) {
@@ -629,12 +639,38 @@ video {
   border-radius: 9999px;
 }
 
+.rounded-r {
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.rounded-l {
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+}
+
 .border {
   border-width: 1px;
 }
 
+.border-t {
+  border-top-width: 1px;
+}
+
+.border-b {
+  border-bottom-width: 1px;
+}
+
+.border-l {
+  border-left-width: 1px;
+}
+
 .cursor-pointer {
   cursor: pointer;
+}
+
+.block {
+  display: block;
 }
 
 .flex {
@@ -673,6 +709,10 @@ video {
   justify-content: center;
 }
 
+.flex-grow {
+  flex-grow: 1;
+}
+
 .font-bold {
   font-weight: 700;
 }
@@ -709,10 +749,6 @@ video {
   margin: 1rem;
 }
 
-.m-8 {
-  margin: 2rem;
-}
-
 .my-2 {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -721,6 +757,11 @@ video {
 .my-12 {
   margin-top: 3rem;
   margin-bottom: 3rem;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .-mx-3 {
@@ -761,8 +802,8 @@ video {
   margin-bottom: 1rem;
 }
 
-.mb-8 {
-  margin-bottom: 2rem;
+.mt-8 {
+  margin-top: 2rem;
 }
 
 .opacity-25 {
@@ -881,6 +922,11 @@ video {
     --text-opacity: 1;
     color: rgba(209, 213, 219, var(--text-opacity));
   }
+
+  .dark\:text-gray-600 {
+    --text-opacity: 1;
+    color: rgba(75, 85, 99, var(--text-opacity));
+  }
 }
 
 .line-through {
@@ -897,6 +943,12 @@ video {
 
 .transition {
   transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.transition-colors {
+  transition-property: background-color, border-color, color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
@@ -993,7 +1045,17 @@ video {
 }
 
 @media (min-width: 1024px) {
+  .lg\:m-8 {
+    margin: 2rem;
+  }
+
+  .lg\:mb-8 {
+    margin-bottom: 2rem;
+  }
 }
 
 @media (min-width: 1280px) {
+  .xl\:m-12 {
+    margin: 3rem;
+  }
 }

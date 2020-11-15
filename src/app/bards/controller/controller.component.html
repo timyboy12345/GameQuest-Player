@@ -1,0 +1,23 @@
+<div class="flex" *ngIf="game && game.state == 'queue'">
+  <h1 class="text-xl flex flex-row items-center">
+    <span class="text-black dark:text-white font-bold mr-1">{{ game.data.name }}</span>
+    <span class="hidden md:block">/ {{ game.id }}</span>
+  </h1>
+</div>
+
+<app-queue *ngIf="game && game.state == 'queue'" [game]="game"></app-queue>
+
+<app-starting *ngIf="game && game.state == 'starting'" [game]="game"></app-starting>
+
+<app-playing *ngIf="game && game.state == 'playing'" [game]="game"></app-playing>
+
+<app-ending *ngIf="game && game.state == 'ending'" [game]="game"></app-ending>
+
+<app-error *ngIf="error" [error]="error"></app-error>
+
+<div class="flex flex-row justify-end" *ngIf="game">
+  <div class="rounded py-2 px-4 cursor-pointer bg-gray-800 hover:bg-gray-900 dark:bg-gray-700 dark:hover:bg-gray-800 transition duration-100 text-white" (click)="startGame()"
+       [ngClass]="{'opacity-25': !game.players || game.players.length < min_player_count}" *ngIf="game.state == 'queue'">
+    Starten
+  </div>
+</div>

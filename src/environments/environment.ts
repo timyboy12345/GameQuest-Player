@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+
+  API_URL: "http://127.0.0.1:8000/api",
+  PUBNUB_PUBLISH_KEY: "pub-c-f56a54c0-0015-4cf2-be10-b2a9c9ba4e09",
+  PUBNUB_SUBSCRIBE_KEY: "sub-c-f55b2e96-a80b-11e9-9950-eaa8f74ddcbd",
+  BARDS_MIN_PLAYER_COUNT: 1
 };
 
 /*

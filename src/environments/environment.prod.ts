@@ -3,7 +3,7 @@ export const environment = {
 
   API_URL: "https://games.arendz.nl/api",
   APP_URL: "https://p.arendz.nl/#",
-  OAUTH_URL: "http://games.arendz.nl/oauth",
+  OAUTH_URL: "https://games.arendz.nl/oauth",
 
   // Keys
   OAUTH_PUBLIC_KEY: "92047603-0fd1-4b48-a952-82be98d03695",

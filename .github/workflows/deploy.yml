@@ -34,9 +34,20 @@ jobs:
       - name: NPM install
         run: npm i
 
+      - name: Write secrets
+        uses: schdck/create-env-json@v1
+        id: create-env
+        with:
+          file-name: 'src/environments/environment.ts'
+          production: true
+          API_URL: ${{ secrets.API_URL }}
+          APP_URL: ${{ secrets.APP_URL }}
+          PUBNUB_PUBLISH_KEY: ${{ secrets.PUBNUB_PUBLISH_KEY }}
+          PUBNUB_SUBSCRIBE_KEY: ${{ secrets.PUBNUB_SUBSCRIBE_KEY }}
+          BARDS_MIN_PLAYER_COUNT: 1
+
       - name: Angular Production build
         run: |
-          npm i
           npm run build:prod
 
       - name: Reset Git

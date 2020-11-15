@@ -22,7 +22,12 @@ export class AuthService {
   }
 
   get isLoggedIn() {
-    return localStorage.getItem('oauth_token') != null;
+    return localStorage.getItem('oauth_token') != null && localStorage.getItem('refresh_token') != null;
+  }
+
+  public logout() {
+    localStorage.removeItem('oauth_token');
+    localStorage.removeItem('refresh_token');
   }
 
   public async getAuthUrl(): Promise<string> {
@@ -62,6 +67,9 @@ export class AuthService {
     }).toPromise()
       .then((value: any) => {
         console.log(value);
+
+        localStorage.removeItem('oauth_code_verifier');
+        localStorage.removeItem('oauth_code_challenge');
 
         localStorage.setItem('oauth_token', value.access_token);
         localStorage.setItem('refresh_token', value.refresh_token);

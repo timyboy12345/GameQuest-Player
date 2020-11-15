@@ -15,4 +15,8 @@ export class AppComponent {
   }
 
   title = 'GameQuest-Player';
+
+  public logout() {
+    this.authService.logout();
+  }
 }

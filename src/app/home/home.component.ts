@@ -18,9 +18,11 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.getUserGames().then((value) => {
-      this.games = value.data;
-    })
+    if (this.authService.isLoggedIn) {
+      this.authService.getUserGames().then((value) => {
+        this.games = value.data;
+      })
+    }
   }
 
   public async login() {

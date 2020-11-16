@@ -11,7 +11,7 @@ export class AppComponent {
   public user: User;
 
   title = 'GameQuest-Player';
-  public navMenuExpanded: boolean = true;
+  public navMenuExpanded: boolean = false;
 
   constructor(public authService: AuthService) {
     this.user = authService.user;

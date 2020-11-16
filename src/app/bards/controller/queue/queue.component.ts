@@ -9,9 +9,10 @@ import {environment} from "../../../../environments/environment";
 })
 export class QueueComponent implements OnInit {
   @Input() game: BardsGame;
+  public APP_URL: string = environment.APP_URL;
 
   public get gameUrl() {
-    return this.game ? `${environment.APP_URL}/${this.game.code}` : null;
+    return this.game ? `${environment.APP_URL}/bards/player/?game_code=${this.game.code}` : null;
   }
 
   constructor() { }

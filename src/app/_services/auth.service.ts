@@ -13,10 +13,6 @@ import {BehaviorSubject, Observable, Subscription} from "rxjs";
 export class AuthService {
   public user: User;
 
-  public get observableUser(): Observable<User> {
-    return new BehaviorSubject(this.user).asObservable();
-  }
-
   constructor(private httpClient: HttpClient) {
     if (this.isLoggedIn) {
       this.getUserInfo().then(value => {

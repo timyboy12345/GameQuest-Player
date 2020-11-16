@@ -1,11 +1,21 @@
 <nav
-  class="z-50 p-4 text-center bg-indigo-900 dark:bg-indigo-900 text-white mb-4 lg:mb-8 shadow-lg flex flex-row justify-between items-center">
+  class="fixed w-full z-50 p-4 text-center bg-indigo-900 dark:bg-indigo-900 text-white mb-4 lg:mb-8 shadow-lg flex flex-row justify-between items-center">
   <div class="text-lg font-bold">GameQuest</div>
   <div (click)="navMenuExpanded = !navMenuExpanded"
-       class="cursor-pointer ml-2 w-8 h-8 rounded-full bg-indigo-700"></div>
+       class="cursor-pointer ml-2 w-8 h-8 rounded-full bg-indigo-700 flex flex-row items-center justify-center">
+    <svg *ngIf="!navMenuExpanded" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+
+    <svg *ngIf="navMenuExpanded" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  </div>
 </nav>
 
-<div class="absolute w-full h-full mt-16 flex flex-col w-full left-0 top-0" *ngIf="navMenuExpanded">
+<div class="" style="height: 64px;"></div>
+
+<div class="fixed w-full h-full mt-16 flex flex-col w-full left-0 top-0" [@inOutAnimation] *ngIf="navMenuExpanded">
   <div (click)="navMenuExpanded = false" class="bg-opacity-60 bg-gray-900 w-full h-full left-0 top-0 absolute"></div>
 
   <div class="m-4 rounded bg-white shadow overflow-hidden z-10">
@@ -17,7 +27,7 @@
       </ul>
     </div>
 
-    <div class="p-4 cursor-pointer flex flex-row items-center hover:bg-gray-100 transition-colors duration-75" (click)="logout()" *ngIf="authService.user">
+    <div class="p-4 cursor-pointer flex flex-row items-center hover:bg-gray-100 transition-colors duration-75 border-b border-gray-100" (click)="logout()" *ngIf="authService.user">
       <svg class="w-5 h-5 mr-2 text-indigo-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>

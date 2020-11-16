@@ -9,6 +9,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {OauthRedirectComponent} from './auth/oauth-redirect/oauth-redirect.component';
 import {_componentsModule} from "./_components/_components.module";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -18,11 +19,12 @@ import {_componentsModule} from "./_components/_components.module";
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     RouterModule,
     HttpClientModule,
     FormsModule,
-    _componentsModule
+    _componentsModule,
   ],
   providers: [],
   exports: [],

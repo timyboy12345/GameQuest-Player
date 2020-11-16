@@ -24,11 +24,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getGames();
-
-    this.authService.observableUser.subscribe(value => {
-      console.log(value);
-      this.getGames();
-    })
   }
 
   private getGames() {

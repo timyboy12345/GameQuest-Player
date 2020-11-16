@@ -643,6 +643,11 @@ video {
   border-color: rgba(229, 231, 235, var(--border-opacity));
 }
 
+.border-indigo-700 {
+  --border-opacity: 1;
+  border-color: rgba(67, 56, 202, var(--border-opacity));
+}
+
 @media (prefers-color-scheme: dark) {
   .dark\:border-gray-700 {
     --border-opacity: 1;
@@ -672,8 +677,16 @@ video {
   border-width: 1px;
 }
 
+.border-t {
+  border-top-width: 1px;
+}
+
 .border-b {
   border-bottom-width: 1px;
+}
+
+.border-l {
+  border-left-width: 1px;
 }
 
 .cursor-pointer {

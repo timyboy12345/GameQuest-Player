@@ -15,7 +15,7 @@
     <div class="bg-white dark:bg-gray-900 rounded shadow p-4">
       <h1 class="text-lg text-black font-bold dark:text-white">Code: {{ game.code }}</h1>
 
-      <p class="text-gray-600 text-sm mb-2">Doe mee door de QR code hier onder te scannen, of ga naar <span class="font-bold">https://play.arendz.nl/</span> en voer de code {{ game.code }} in.</p>
+      <p class="text-gray-600 text-sm mb-2">Doe mee door de QR code hier onder te scannen, of ga naar <span class="font-bold">{{ APP_URL }}</span> en voer de code {{ game.code }} in.</p>
 
       <ngx-qrcode [value]="gameUrl" cssClass="w-full flex flex-row justify-center"></ngx-qrcode>
     </div>

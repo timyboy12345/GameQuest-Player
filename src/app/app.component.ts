@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {AuthService} from "./_services/auth.service";
 import {User} from "./_interfaces/user.interface";
 import {animate, style, transition, trigger} from "@angular/animations";
+import {environment} from "../environments/environment";
 
 @Component({
   selector: 'app-root',
@@ -33,6 +34,7 @@ import {animate, style, transition, trigger} from "@angular/animations";
 })
 export class AppComponent {
   public user: User;
+  public version: string = environment.version;
 
   title = 'GameQuest-Player';
   public navMenuExpanded: boolean = false;

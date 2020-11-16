@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
 
   private getGames() {
     if (this.authService.isLoggedIn) {
-      this.authService.getUserGames().then((value) => {
+      this.gameService.getUserGames().then((value) => {
         this.games = value.data;
       })
     }

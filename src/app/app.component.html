@@ -1,6 +1,12 @@
 <nav
   class="fixed w-full z-50 p-4 text-center bg-indigo-900 dark:bg-indigo-900 text-white mb-4 lg:mb-8 shadow-lg flex flex-row justify-between items-center">
-  <div class="text-lg font-bold">GameQuest</div>
+  <div class="text-lg font-bold flex flex-row items-start">
+    <div class="mr-1">GameQuest</div>
+
+    <span class="text-xs font-light transform -translate-y-0.5 opacity-50">
+      {{ version }}
+    </span>
+  </div>
   <div (click)="navMenuExpanded = !navMenuExpanded"
        class="cursor-pointer ml-2 w-8 h-8 rounded-full bg-indigo-700 flex flex-row items-center justify-center">
     <svg *ngIf="!navMenuExpanded" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

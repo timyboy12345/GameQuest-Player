@@ -91,15 +91,6 @@ export class AuthService {
     }).toPromise()
   }
 
-  public getUserGames(): Promise<Pagination<Game>> {
-    return this.httpClient.get<Pagination<Game>>(`${environment.API_URL}/games`, {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        Authorization: `Bearer ${localStorage.getItem('oauth_token')}`
-      })
-    }).toPromise()
-  }
-
   private static async generateCodeChallenge(codeVerifier) {
     const digest = await crypto.subtle.digest("SHA-256",
       new TextEncoder().encode(codeVerifier));

@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  version: "v0.1",
 
   API_URL: "https://games.arendz.nl/api",
   APP_URL: "https://p.arendz.nl/#",

@@ -1,8 +1,8 @@
-<app-card title="Home" class="mb-8">
+<app-card cardTitle="Home" class="mb-8">
   Welkom bij GameQuest, een interactief game-platform om samen met vrienden realtime games te spelen.
 </app-card>
 
-<app-card title="Meedoen met een spel">
+<app-card cardTitle="Meedoen met een spel">
   <p class="mb-2">Vul hieronder de game-code in om mee te doen met een spel.</p>
 
   <div class="rounded flex flex-row items-center">
@@ -15,7 +15,7 @@
   </div>
 </app-card>
 
-<app-card *ngIf="!authService.isLoggedIn" title="GameQuest Account">
+<app-card *ngIf="!authService.isLoggedIn" cardTitle="GameQuest Account">
   Om gebruik te maken van alle features van GameQuest is een account nodig.
 
   <div *ngIf="!authService.isLoggedIn" class="rounded text-white mt-2 bg-indigo-700 cursor-pointer px-4 py-2"
@@ -54,7 +54,7 @@
   </div>
 </div>
 
-<app-card title="Jouw Games" padding="p-0" card_classes="flex flex-col" *ngIf="authService.isLoggedIn">
+<app-card cardTitle="Jouw Games" padding="p-0" card_classes="flex flex-col" *ngIf="authService.isLoggedIn">
   <div *ngFor="let game of games; let last = last" [routerLink]="['/bards/controller', game.id]"
        [ngClass]="{'border-b': !last}"
        class="py-2 px-4 border-gray-100 dark:border-gray-800 bg-white cursor-pointer hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800 transition-colors duration-100">

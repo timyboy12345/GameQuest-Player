@@ -15,8 +15,8 @@
 
 <div class="" style="height: 64px;"></div>
 
-<div class="fixed w-full h-full mt-16 flex flex-col w-full left-0 top-0" [@inOutAnimation] *ngIf="navMenuExpanded">
-  <div (click)="navMenuExpanded = false" class="bg-opacity-60 bg-gray-900 w-full h-full left-0 top-0 absolute"></div>
+<div class="fixed w-full h-full mt-16 text-gray-900 flex flex-col w-full left-0 top-0 z-10" [@inOutAnimation] *ngIf="navMenuExpanded">
+  <div (click)="navMenuExpanded = false" class="bg-opacity-80 bg-gray-700 dark:bg-gray-900 w-full h-full left-0 top-0 absolute"></div>
 
   <div class="m-4 rounded bg-white shadow overflow-hidden z-10">
     <div class="p-4 flex flex-col border-b border-gray-100" *ngIf="authService.user">

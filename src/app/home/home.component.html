@@ -6,7 +6,7 @@
   <p class="mb-2">Vul hieronder de game-code in om mee te doen met een spel.</p>
 
   <div class="rounded flex flex-row items-center">
-    <input #gameCodeInput class="rounded-l bg-gray-100 flex-grow p-1 border-indigo-700 border-l border-t border-b"
+    <input #gameCodeInput class="text-gray-900 rounded-l bg-gray-100 flex-grow p-1 border-indigo-700 border-l border-t border-b"
            placeholder="Game code"/>
     <button (click)="joinGame(gameCodeInput.value)" type="submit"
             class="rounded-r text-white bg-indigo-700 px-2 py-1 border-indigo-700 border hover:border-indigo-800 hover:bg-indigo-800 transition duration-75">
@@ -24,7 +24,7 @@
   </div>
 </app-card>
 
-<div class="fixed w-full h-full mt-16 flex flex-col w-full left-0 top-0" *ngIf="startNewGamePopup">
+<div class="fixed w-full h-full text-gray-900 mt-16 flex flex-col w-full left-0 top-0" *ngIf="startNewGamePopup">
   <div (click)="startNewGamePopup = false" class="bg-opacity-60 bg-gray-900 w-full h-full left-0 top-0 absolute"></div>
 
   <div class="m-4 z-10">
@@ -57,7 +57,7 @@
 <app-card title="Jouw Games" padding="p-0" card_classes="flex flex-col" *ngIf="authService.isLoggedIn">
   <div *ngFor="let game of games; let last = last" [routerLink]="['/bards/controller', game.id]"
        [ngClass]="{'border-b': !last}"
-       class="py-2 px-4 border-gray-100 bg-white cursor-pointer hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-black transition-colors duration-100">
+       class="py-2 px-4 border-gray-100 dark:border-gray-800 bg-white cursor-pointer hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800 transition-colors duration-100">
     <h2 class="">{{ game.type }}</h2>
     <h3 class="text-sm text-gray-600">{{ game.code }} / {{ game.state }}</h3>
   </div>

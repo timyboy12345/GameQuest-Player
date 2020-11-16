@@ -9,6 +9,14 @@
   <div class="bg-opacity-60 bg-gray-900 w-full h-full left-0 top-0 absolute"></div>
 
   <div class="m-4 rounded bg-white shadow overflow-hidden z-10">
+    <div class="p-4 flex flex-col border-b border-gray-100" *ngIf="authService.user">
+      <div class="text-sm text-indigo-800">Jouw Account</div>
+      <ul class="text-sm text-gray-600">
+        <li>Naam: {{ authService.user.name }}</li>
+        <li>Email: {{ authService.user.email }}</li>
+      </ul>
+    </div>
+
     <div class="p-4 cursor-pointer flex flex-row items-center hover:bg-gray-100 transition-colors duration-75" (click)="logout()" *ngIf="authService.user">
       <svg class="w-5 h-5 mr-2 text-indigo-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />

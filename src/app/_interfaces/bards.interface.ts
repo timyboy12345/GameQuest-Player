@@ -12,4 +12,8 @@ export interface BardsGame {
   players: BardsPlayer[];
   code?: string;
   state?: string;
+
+  created_at?: string;
+  updated_at?: string;
+  started_at?: string;
 }

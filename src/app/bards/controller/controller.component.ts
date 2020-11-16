@@ -9,6 +9,7 @@ import {BardsPlayer} from "../../_interfaces/bards_player.interface";
 import {environment} from "../../../environments/environment";
 import {ActivatedRoute} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
+import {Game} from "../../_interfaces/game.interface";
 
 @Component({
   selector: 'app-controller',
@@ -32,8 +33,8 @@ export class ControllerComponent implements OnInit {
     const game_id = this.activatedRoute.snapshot.paramMap.get('game_id');
 
     this.gameService.get(game_id)
-      .then((value: BardsGame) => {
-        this.game = value;
+      .then((value: Game) => {
+        this.game = <BardsGame><unknown>value;
 
         this.listenerService.subscribe(this.game.id);
         this.listenerService.listen().subscribe(m => {
@@ -61,7 +62,17 @@ export class ControllerComponent implements OnInit {
   }
 
   public playerJoined(player: BardsPlayer) {
-    this.game.players.push(player);
+    let player_already_joined = false;
+
+    this.game.players.forEach(p => {
+      if (p.id == player.id) {
+        player_already_joined = true;
+      }
+    })
+
+    if (!player_already_joined) {
+      this.game.players.push(player);
+    }
   }
 
   public startGame() {

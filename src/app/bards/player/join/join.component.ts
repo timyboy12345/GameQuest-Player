@@ -8,6 +8,7 @@ import {BardsPlayer} from "../../../_interfaces/bards_player.interface";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 import {AuthService} from "../../../_services/auth.service";
+import {Game} from "../../../_interfaces/game.interface";
 
 @Component({
   selector: 'app-join',
@@ -72,9 +73,13 @@ export class JoinComponent implements OnInit {
           this.game.code = game.code;
           this.game.creator_id = game.creator_id;
           this.game.data = game.data;
+          this.game.type = game.type;
 
           this.player.id = player.id;
           this.player.name = player.name;
+
+          this.gameService.saveGameInCache(<Game><unknown>this.game);
+          this.gameService.savePlayerInCache(this.player);
 
           this.listenerService.subscribe(this.game.id);
           this.listenerService.setPlayerUuid(this.player.id);

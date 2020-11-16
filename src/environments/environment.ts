@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  version: "v0.1-ALPHA",
+  version: "v0.2-ALPHA",
 
   // URIs
   API_URL: "http://127.0.0.1:8000/api",

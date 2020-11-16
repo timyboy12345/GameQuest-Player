@@ -1,17 +1,20 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {BardsGame} from "../../../_interfaces/bards.interface";
 import {BardsQuestion} from "../../../_interfaces/bards_question.interface";
 import {Player} from "../../../_interfaces/player.interface";
 import {ListenerService, MessageTypes} from "../../../_services/bards/listener.service";
 import {BardsPlayer} from "../../../_interfaces/bards_player.interface";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-playing',
   templateUrl: './playing.component.html',
   styleUrls: ['./playing.component.scss']
 })
-export class PlayingComponent implements OnInit {
+export class PlayingComponent implements OnInit, OnDestroy {
   @Input() game: BardsGame;
+
+  private subscriptions: Subscription[] = [];
 
   public selectedPlayerIndex: number = -1;
   public selectedQuestionIndex: number = -1;
@@ -38,13 +41,21 @@ export class PlayingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listenerService.listen().subscribe(m => {
+    const s = this.listenerService.listen().subscribe(m => {
       // if (m.message.type == MessageTypes.NEW_QUESTION) {
       //   console.log(m);
       // }
     })
 
+    this.subscriptions.push(s);
+
     this.nextQuestion();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(s => {
+      s.unsubscribe();
+    })
   }
 
   public nextQuestion() {

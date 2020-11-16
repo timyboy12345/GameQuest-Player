@@ -6,6 +6,8 @@ import {GameService} from "../../../_services/game.service";
 import * as uuid from 'uuid';
 import {BardsPlayer} from "../../../_interfaces/bards_player.interface";
 import {HttpErrorResponse} from "@angular/common/http";
+import {ActivatedRoute, ParamMap} from "@angular/router";
+import {AuthService} from "../../../_services/auth.service";
 
 @Component({
   selector: 'app-join',
@@ -20,11 +22,15 @@ export class JoinComponent implements OnInit {
 
   constructor(
     private listenerService: ListenerService,
-    private gameService: GameService
+    private gameService: GameService,
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthService
   ) {
   }
 
   ngOnInit(): void {
+    const params: ParamMap = this.activatedRoute.snapshot.queryParamMap;
+
     this.joinForm = new FormGroup({
       code: new FormControl('', [
         Validators.required,
@@ -35,6 +41,14 @@ export class JoinComponent implements OnInit {
         Validators.required
       ])
     })
+
+    if (params.has('game_code')) {
+      this.joinForm.get('code').setValue(params.get('game_code'));
+    }
+
+    if (this.authService.isLoggedIn && this.authService.user) {
+      this.joinForm.get('name').setValue(this.authService.user.name);
+    }
   }
 
   public submit() {

@@ -15,6 +15,7 @@ import {EndComponent} from './player/end/end.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {JoinedComponent} from './player/joined/joined.component';
 import { FinishedComponent } from './controller/finished/finished.component';
+import {_componentsModule} from "../_components/_components.module";
 
 const routes: Routes = [
   {
@@ -52,7 +53,8 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     NgxQRCodeModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    _componentsModule,
   ],
   exports: [
     RouterModule

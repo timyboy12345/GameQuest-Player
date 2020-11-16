@@ -4,7 +4,7 @@
 
 <app-question *ngIf="game && game.state == 'playing' && question" [question]="question"></app-question>
 
-<app-end *ngIf="game && game.state == 'ended'" [game]="game"></app-end>
+<app-end *ngIf="game && (game.state == 'ended' || game.state == 'finished')" [game]="game"></app-end>
 
 <div class="fixed m-4 left-0 bottom-0">
   <div (click)="leaveGame()" class="rounded cursor-pointer bg-red-700 hover:bg-red-800 transition duration-75 text-sm text-white px-2 py-1">

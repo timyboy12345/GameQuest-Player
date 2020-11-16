@@ -7,22 +7,25 @@ import {RouterModule} from "@angular/router";
 import {HomeComponent} from "./home/home.component";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
-import { OauthRedirectComponent } from './auth/oauth-redirect/oauth-redirect.component';
+import {OauthRedirectComponent} from './auth/oauth-redirect/oauth-redirect.component';
+import {_componentsModule} from "./_components/_components.module";
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    OauthRedirectComponent
+    OauthRedirectComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     RouterModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    _componentsModule
   ],
   providers: [],
+  exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

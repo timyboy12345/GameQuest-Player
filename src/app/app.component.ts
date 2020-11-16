@@ -10,13 +10,20 @@ import {User} from "./_interfaces/user.interface";
 export class AppComponent {
   public user: User;
 
+  title = 'GameQuest-Player';
+  public navMenuExpanded: boolean = false;
+
   constructor(public authService: AuthService) {
     this.user = authService.user;
   }
 
-  title = 'GameQuest-Player';
-
   public logout() {
     this.authService.logout();
+    this.navMenuExpanded = false;
+  }
+
+  public async login() {
+    window.location.href = await this.authService.getAuthUrl();
+    this.navMenuExpanded = false;
   }
 }

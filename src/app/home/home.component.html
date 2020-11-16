@@ -1,47 +1,57 @@
-<h2 class="text-lg text-indigo-800 dark:text-white font-bold mb-4">Games</h2>
+<app-card title="Home" class="mb-8">
+  Welkom bij GameQuest, een interactief game-platform om samen met vrienden realtime games te spelen.
+</app-card>
 
-<div class="flex flex-col mb-4">
-  <div class="rounded rounded bg-white dark:bg-gray-900 shadow overflow-hidden">
-    <div class="h-4 w-full bg-black"></div>
-    <div class="p-4">
-      <h3 class="text-lg text-black dark:text-white font-bold">
-        Bidal
-      </h3>
+<app-card title="Meedoen met een spel">
+  <p class="mb-2">Vul hieronder de game-code in om mee te doen met een spel.</p>
 
-      <p class="text-gray-700 dark:text-gray-600 mb-4">
-        Welke kaart trek jij?
-      </p>
+  <div class="rounded flex flex-row items-center">
+    <input #gameCodeInput class="rounded-l bg-gray-100 flex-grow p-1" placeholder="Game code"/>
+    <button (click)="joinGame(gameCodeInput.value)" type="submit" class="rounded-r text-white bg-indigo-700 px-2 py-1">Meedoen</button>
+  </div>
+</app-card>
 
-      <div class="flex flex-col">
-        <a routerLink="/bards"
-           class="mb-4 cursor-pointer py-2 px-4 rounded bg-indigo-700 hover:bg-indigo-800 transition-colors duration-100 text-white">
-          Meedoen met een bestaand spel
-        </a>
+<app-card *ngIf="!authService.isLoggedIn" title="GameQuest Account">
+  Om gebruik te maken van alle features van GameQuest is een account nodig.
 
-        <div class="flex flex-row text-sm">
-          <input [(ngModel)]="bardsGameId" placeholder="Game ID"
-                 class="p-1 border-l border-b border-t flex-grow rounded-l text-black"/>
-          <a [routerLink]="['/bards/controller', bardsGameId]"
-             class="cursor-pointer py-1 px-2 rounded-r bg-indigo-700 hover:bg-indigo-800 transition-colors duration-100 text-white">
-            Spel starten
-          </a>
-        </div>
+  <div *ngIf="!authService.isLoggedIn" class="rounded text-white mt-2 bg-indigo-700 cursor-pointer px-4 py-2"
+       (click)="login()">
+    Inloggen
+  </div>
+</app-card>
+
+<div class="absolute w-full h-full mt-16 flex flex-col w-full left-0 top-0" *ngIf="startNewGamePopup">
+  <div (click)="startNewGamePopup = false" class="bg-opacity-60 bg-gray-900 w-full h-full left-0 top-0 absolute"></div>
+
+  <div class="m-4 z-10">
+    <h2 class="p-4 rounded shadow bg-white text-indigo-800 font-bold text-lg mb-2">Nieuw spel starten</h2>
+
+    <div class="rounded bg-white shadow overflow-hidden">
+      <div
+        class="p-4 relative cursor-pointer flex flex-row items-center hover:bg-gray-100 transition-colors duration-75 opacity-30">
+        <div class="absolute left-0 h-full w-2 bg-indigo-800"></div>
+        <div>Autocomplete</div>
+      </div>
+      <div
+        class="p-4 relative cursor-pointer flex flex-row items-center hover:bg-gray-100 transition-colors duration-75"
+        (click)="newGame('bards')">
+        <div class="absolute left-0 h-full w-2 bg-indigo-800"></div>
+        <div>Bards</div>
       </div>
     </div>
   </div>
 </div>
 
-<div *ngIf="!authService.isLoggedIn" class="rounded bg-indigo-700 cursor-pointer px-4 py-2" (click)="login()">
-  Inloggen
-</div>
-
-<div *ngIf="authService.isLoggedIn">
-  <h2 class="text-lg font-bold mt-8 mb-2">Jouw games</h2>
-  <div class="flex flex-col rounded overflow-hidden">
-    <div *ngFor="let game of games" [routerLink]="['/bards/controller', game.id]"
-         class="p-4 bg-white cursor-pointer hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-black">
-      <h2 class="text-lg">{{ game.type }}</h2>
-      <h3 class="text-sm text-gray-600">{{ game.code }} / {{ game.state }}</h3>
-    </div>
+<app-card title="Jouw Games" padding="p-0" card_classes="flex flex-col" *ngIf="authService.isLoggedIn">
+  <div *ngFor="let game of games; let last = last" [routerLink]="['/bards/controller', game.id]"
+       [ngClass]="{'border-b': !last}"
+       class="py-2 px-4 border-gray-100 bg-white cursor-pointer hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-black transition-colors duration-100">
+    <h2 class="">{{ game.type }}</h2>
+    <h3 class="text-sm text-gray-600">{{ game.code }} / {{ game.state }}</h3>
   </div>
+</app-card>
+
+<div (click)="startNewGamePopup = !startNewGamePopup" *ngIf="authService.isLoggedIn"
+     class="block mb-8 px-4 py-2 cursor-pointer rounded shadow bg-indigo-700 hover:bg-indigo-800 transition-colors duration-75 text-white">
+  Nieuw spel starten
 </div>

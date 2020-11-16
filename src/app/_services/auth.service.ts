@@ -5,6 +5,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {User} from "../_interfaces/user.interface";
 import {Game} from "../_interfaces/game.interface";
 import {Pagination} from "../_interfaces/pagination.interface";
+import {BehaviorSubject, Observable, Subscription} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,13 @@ import {Pagination} from "../_interfaces/pagination.interface";
 export class AuthService {
   public user: User;
 
+  public get observableUser(): Observable<User> {
+    return new BehaviorSubject(this.user).asObservable();
+  }
+
   constructor(private httpClient: HttpClient) {
     if (this.isLoggedIn) {
       this.getUserInfo().then(value => {
-        console.log(value);
         this.user = value;
       })
     }
@@ -26,6 +30,7 @@ export class AuthService {
   }
 
   public logout() {
+    this.user = null;
     localStorage.removeItem('oauth_token');
     localStorage.removeItem('refresh_token');
   }
@@ -66,8 +71,6 @@ export class AuthService {
       'code': authorization_code,
     }).toPromise()
       .then((value: any) => {
-        console.log(value);
-
         localStorage.removeItem('oauth_code_verifier');
         localStorage.removeItem('oauth_code_challenge');
 
@@ -117,5 +120,9 @@ export class AuthService {
     }
 
     return result;
+  }
+
+  public getAuthToken() {
+    return localStorage.getItem("oauth_token");
   }
 }

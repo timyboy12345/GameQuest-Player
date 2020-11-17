@@ -21,10 +21,11 @@
 
 <div class="" style="height: 64px;"></div>
 
+<!-- Menu Popup -->
 <div class="fixed w-full h-full mt-16 text-gray-900 flex flex-col w-full left-0 top-0 z-10" [@inOutAnimation] *ngIf="navMenuExpanded">
   <div (click)="navMenuExpanded = false" class="bg-opacity-80 bg-gray-700 dark:bg-gray-900 w-full h-full left-0 top-0 absolute"></div>
 
-  <div class="m-4 rounded bg-white shadow overflow-hidden z-10">
+  <div class="m-4 rounded bg-white shadow overflow-hidden z-10 lg:w-full lg:max-w-4xl lg:mx-auto">
     <div class="p-4 flex flex-col border-b border-gray-100" *ngIf="authService.user">
       <div class="text-sm text-indigo-800">Jouw Account</div>
       <ul class="text-sm text-gray-600">
@@ -54,6 +55,7 @@
   </div>
 </div>
 
-<div class="m-4 lg:m-8 xl:m-12">
+<div class="m-4 lg:m-8 xl:my-12 lg:max-w-4xl lg:mx-auto">
+<!--<div class="m-4 lg:m-8 xl:my-12 lg:m-8">-->
   <router-outlet></router-outlet>
 </div>

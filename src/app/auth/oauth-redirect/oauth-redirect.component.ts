@@ -30,6 +30,7 @@ export class OauthRedirectComponent implements OnInit {
     }
 
     this.authService.getTokenFromAuthorizationCode(code).then(value => {
+      console.log(value);
       this.router.navigate(['/home']);
     })
   }

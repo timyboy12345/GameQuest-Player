@@ -56,25 +56,26 @@ export class AuthService {
     return `${url}/authorize?state=${state}&client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&scope=${scope}&code_challenge=${code_challenge}&code_challenge_method=${code_challenge_method}`;
   }
 
-  public async getTokenFromAuthorizationCode(authorization_code: string) {
+  public async getTokenFromAuthorizationCode(authorization_code: string): Promise<User | void> {
     const code_verifier = localStorage.getItem('oauth_code_verifier');
 
-    this.httpClient.post(`${environment.OAUTH_URL}/token`, {
+    return await this.httpClient.post<User>(`${environment.OAUTH_URL}/token`, {
       'grant_type': 'authorization_code',
       'client_id': environment.OAUTH_PUBLIC_KEY,
       'redirect_uri': `${environment.APP_URL}/oauth/callback`,
       'code_verifier': code_verifier,
       'code': authorization_code,
     }).toPromise()
-      .then((value: any) => {
+      .then(async (value: any) => {
         localStorage.removeItem('oauth_code_verifier');
         localStorage.removeItem('oauth_code_challenge');
 
         localStorage.setItem('oauth_token', value.access_token);
         localStorage.setItem('refresh_token', value.refresh_token);
 
-        this.getUserInfo().then(u => {
+        return await this.getUserInfo().then((u: User) => {
           this.user = u;
+          return u;
         })
       })
       .catch(reason => {

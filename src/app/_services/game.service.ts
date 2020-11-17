@@ -17,12 +17,12 @@ export class GameService {
               private authService: AuthService) {
   }
 
-  public get(game_id: string): Promise<Game> {
-    return this.httpClient.get<Game>(`${environment.API_URL}/games/game/${game_id}`).toPromise();
+  public get(gameId: string): Promise<Game> {
+    return this.httpClient.get<Game>(`${environment.API_URL}/games/game/${gameId}`).toPromise();
   }
 
-  public getByCode(code: string): Promise<Object> {
-    return this.httpClient.get(`${environment.API_URL}/games/code/${code}`).toPromise();
+  public getByCode(code: string): Promise<Game> {
+    return this.httpClient.get<Game>(`${environment.API_URL}/games/code/${code}`).toPromise();
   }
 
   public getUserGames(order: string = 'desc'): Promise<Pagination<Game>> {
@@ -47,10 +47,10 @@ export class GameService {
 
   public getCachedGame(): Game {
     if (sessionStorage.getItem('cached_game_timestamp')) {
-      const unix_seconds = Math.floor(Date.now() / 1000);
-      const saved_unix_seconds: number = parseInt(sessionStorage.getItem('cached_game_timestamp'));
+      const unixSeconds = Math.floor(Date.now() / 1000);
+      const savedUnixSeconds: number = parseInt(sessionStorage.getItem('cached_game_timestamp'), 10);
 
-      if (unix_seconds > saved_unix_seconds + this.maxSessionStorageInSeconds) {
+      if (unixSeconds > savedUnixSeconds + this.maxSessionStorageInSeconds) {
         sessionStorage.setItem('cached_game_timestamp', null);
         sessionStorage.setItem('cached_game', null);
         return null;
@@ -60,18 +60,18 @@ export class GameService {
     return sessionStorage.getItem('cached_game') ? JSON.parse(sessionStorage.getItem('cached_game')) : null;
   }
 
-  public saveGameInCache(game: Game) {
-    const unix_seconds = Math.floor(Date.now() / 1000);
-    sessionStorage.setItem('cached_game_timestamp', unix_seconds.toString());
+  public saveGameInCache(game: Game): void {
+    const unixSeconds = Math.floor(Date.now() / 1000);
+    sessionStorage.setItem('cached_game_timestamp', unixSeconds.toString());
     sessionStorage.setItem('cached_game', JSON.stringify(game));
   }
 
   public getCachedPlayer(): Player {
     if (sessionStorage.getItem('cached_player_timestamp')) {
-      const unix_seconds = Math.floor(Date.now() / 1000);
-      const saved_unix_seconds: number = parseInt(sessionStorage.getItem('cached_player_timestamp'));
+      const unixSeconds = Math.floor(Date.now() / 1000);
+      const savedUnixSeconds: number = parseInt(sessionStorage.getItem('cached_player_timestamp'), 10);
 
-      if (unix_seconds > saved_unix_seconds + this.maxSessionStorageInSeconds) {
+      if (unixSeconds > savedUnixSeconds + this.maxSessionStorageInSeconds) {
         sessionStorage.setItem('cached_player_timestamp', null);
         sessionStorage.setItem('cached_player', null);
         return null;
@@ -81,9 +81,9 @@ export class GameService {
     return sessionStorage.getItem('cached_player') ? JSON.parse(sessionStorage.getItem('cached_player')) : null;
   }
 
-  public savePlayerInCache(player: Player) {
-    const unix_seconds = Math.floor(Date.now() / 1000);
-    sessionStorage.setItem('cached_player_timestamp', unix_seconds.toString());
+  public savePlayerInCache(player: Player): void {
+    const unixSeconds = Math.floor(Date.now() / 1000);
+    sessionStorage.setItem('cached_player_timestamp', unixSeconds.toString());
     sessionStorage.setItem('cached_player', JSON.stringify(player));
   }
 }

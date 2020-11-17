@@ -20,12 +20,13 @@ export class AuthService {
     }
   }
 
-  get isLoggedIn() {
+  get isLoggedIn(): boolean {
     return localStorage.getItem('oauth_token') !== null && localStorage.getItem('refresh_token') !== null;
   }
+
   public user: User;
 
-  private static async generateCodeChallenge(codeVerifier) {
+  private static async generateCodeChallenge(codeVerifier): Promise<string> {
     const digest = await crypto.subtle.digest('SHA-256',
       new TextEncoder().encode(codeVerifier));
 
@@ -33,7 +34,7 @@ export class AuthService {
       .replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
   }
 
-  private static random_string(length: number, chars: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~') {
+  private static random_string(length: number, chars: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~'): string {
     let result = '';
 
     for (let i = 0; i < length; i++) {
@@ -43,7 +44,7 @@ export class AuthService {
     return result;
   }
 
-  public logout() {
+  public logout(): void {
     this.user = null;
     localStorage.removeItem('oauth_token');
     localStorage.removeItem('refresh_token');
@@ -55,34 +56,34 @@ export class AuthService {
     const state = AuthService.random_string(40, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz');
     localStorage.setItem('oauth_state', state);
 
-    const code_verifier = AuthService.random_string(128);
-    localStorage.setItem('oauth_code_verifier', code_verifier);
+    const codeVerifier = AuthService.random_string(128);
+    localStorage.setItem('oauth_code_verifier', codeVerifier);
 
-    const code_challenge = await AuthService.generateCodeChallenge(code_verifier);
-    localStorage.setItem('oauth_code_challenge', code_challenge);
+    const codeChallenge = await AuthService.generateCodeChallenge(codeVerifier);
+    localStorage.setItem('oauth_code_challenge', codeChallenge);
 
-    console.log(code_verifier);
-    console.log(code_challenge);
+    console.log(codeVerifier);
+    console.log(codeChallenge);
 
-    const client_id = environment.OAUTH_PUBLIC_KEY;
-    const redirect_uri = encodeURIComponent(`${environment.APP_URL}/oauth/callback`);
-    const response_type = 'code';
+    const clientId = environment.OAUTH_PUBLIC_KEY;
+    const redirectUri = encodeURIComponent(`${environment.APP_URL}/oauth/callback`);
+    const responseType = 'code';
     const scope = '*';
 
-    const code_challenge_method = 'S256';
+    const codeChallengeMethod = 'S256';
 
-    return `${url}/authorize?state=${state}&client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&scope=${scope}&code_challenge=${code_challenge}&code_challenge_method=${code_challenge_method}`;
+    return `${url}/authorize?state=${state}&client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}&code_challenge=${codeChallenge}&code_challenge_method=${codeChallengeMethod}`;
   }
 
-  public async getTokenFromAuthorizationCode(authorization_code: string): Promise<User | void> {
-    const code_verifier = localStorage.getItem('oauth_code_verifier');
+  public async getTokenFromAuthorizationCode(authorizationCode: string): Promise<User | void> {
+    const codeVerifier = localStorage.getItem('oauth_code_verifier');
 
     return await this.httpClient.post<User>(`${environment.OAUTH_URL}/token`, {
       grant_type: 'authorization_code',
       client_id: environment.OAUTH_PUBLIC_KEY,
       redirect_uri: `${environment.APP_URL}/oauth/callback`,
-      code_verifier: code_verifier,
-      code: authorization_code,
+      code_verifier: codeVerifier,
+      code: authorizationCode,
     }).toPromise()
       .then(async (value: any) => {
         localStorage.removeItem('oauth_code_verifier');
@@ -104,13 +105,17 @@ export class AuthService {
   public getUserInfo(): Promise<User> {
     return this.httpClient.get<User>(`${environment.API_URL}/user`, {
       headers: new HttpHeaders({
-        'Content-Type':  'application/json',
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('oauth_token')}`
       })
     }).toPromise();
   }
 
-  public getAuthToken() {
+  public getAuthToken(): string {
     return localStorage.getItem('oauth_token');
+  }
+
+  public getRefreshToken(): string {
+    return localStorage.getItem('refresh_token');
   }
 }

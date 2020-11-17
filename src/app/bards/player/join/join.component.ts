@@ -61,7 +61,7 @@ export class JoinComponent implements OnInit {
     this.joinForm.disable();
 
     this.gameService.getByCode(this.joinForm.get('code').value)
-      .then((game: BardsGame) => {
+      .then((game: Game) => {
         const player: Player = {
           id: uuid.v4(),
           name: this.joinForm.get('name').value

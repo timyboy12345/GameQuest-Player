@@ -6,7 +6,7 @@ export interface BardsGame {
   type: string;
   creator_id?: string;
   data?: {
-    questions: BardsQuestion[];
+    questions?: BardsQuestion[];
     name?: string;
   };
   state: string;

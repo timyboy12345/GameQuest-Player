@@ -9,7 +9,7 @@ export class CardComponent implements OnInit {
   @Input() cardTitle?: string;
   @Input() margin = 'mb-8';
   @Input() padding = 'p-4';
-  @Input() card_classes?: string;
+  @Input() cardClasses?: string;
 
   constructor() { }
 

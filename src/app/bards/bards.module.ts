@@ -15,7 +15,7 @@ import { EndComponent } from './player/end/end.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { JoinedComponent } from './player/joined/joined.component';
 import { FinishedComponent } from './controller/finished/finished.component';
-import { _componentsModule } from '../_components/_components.module';
+import { ComponentsModule } from '../_components/components.module';
 import { LoadingComponent } from './player/loading/loading.component';
 import { CachedGameComponent } from './player/cached-game/cached-game.component';
 
@@ -58,7 +58,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     NgxQRCodeModule,
     ReactiveFormsModule,
-    _componentsModule,
+    ComponentsModule,
   ],
   exports: [
     RouterModule

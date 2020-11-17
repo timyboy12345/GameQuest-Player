@@ -101,7 +101,8 @@ export class PlayerComponent implements OnInit {
       if (value.message.type === MessageTypes.NEW_QUESTION) {
         this.question = null;
 
-        if ((value.message.player && value.message.player.id === this.player.id) || (value.message.question as BardsQuestion).groupType === BoardQuestionGroupType.GROUP) {
+        if ((value.message.player && value.message.player.id === this.player.id) ||
+          (value.message.question as BardsQuestion).groupType === BoardQuestionGroupType.GROUP) {
           this.question = value.message.question;
         }
       }

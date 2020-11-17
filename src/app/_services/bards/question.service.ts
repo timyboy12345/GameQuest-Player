@@ -71,9 +71,9 @@ export class QuestionService {
   }
 
   private getRandom(n, arr = this.questions): BardsQuestion[] {
-    let result = new Array(n),
-      len = arr.length,
-      taken = new Array(len);
+    const result = new Array(n);
+    let len = arr.length;
+    const taken = new Array(len);
 
     if (n > len) {
       throw new RangeError('getRandom: more elements taken than available');

@@ -8,7 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { OauthRedirectComponent } from './auth/oauth-redirect/oauth-redirect.component';
-import { _componentsModule } from './_components/_components.module';
+import { ComponentsModule } from './_components/components.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
@@ -24,7 +24,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     RouterModule,
     HttpClientModule,
     FormsModule,
-    _componentsModule,
+    ComponentsModule,
   ],
   providers: [],
   exports: [],

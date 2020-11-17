@@ -48,7 +48,7 @@ export class AppComponent {
     this.navMenuExpanded = false;
   }
 
-  public async login(): void {
+  public async login(): Promise<void> {
     window.location.href = await this.authService.getAuthUrl();
     this.navMenuExpanded = false;
   }

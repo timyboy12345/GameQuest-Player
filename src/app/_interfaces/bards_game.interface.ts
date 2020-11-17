@@ -1,5 +1,5 @@
-import {BardsPlayer} from "./bards_player.interface";
 import {BardsQuestion} from "./bards_question.interface";
+import {Player} from "./player.interface";
 
 export interface BardsGame {
   id: string;
@@ -9,9 +9,9 @@ export interface BardsGame {
     questions: BardsQuestion[];
     name?: string;
   };
-  players: BardsPlayer[];
-  code?: string;
-  state?: string;
+  state: string;
+  code: string;
+  players?: Player[];
 
   created_at?: string;
   updated_at?: string;

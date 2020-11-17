@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ListenerService, MessageTypes} from "../../_services/bards/listener.service";
-import {BardsPlayer} from "../../_interfaces/bards_player.interface";
 import {BardsQuestion, BoardQuestionGroupType} from "../../_interfaces/bards_question.interface";
-import {BardsGame} from "../../_interfaces/bards.interface";
+import {BardsGame} from "../../_interfaces/bards_game.interface";
 import {GameService} from "../../_services/game.service";
 import {Game} from "../../_interfaces/game.interface";
+import {Player} from "../../_interfaces/player.interface";
 
 @Component({
   selector: 'app-player',
@@ -13,11 +13,11 @@ import {Game} from "../../_interfaces/game.interface";
   styleUrls: ['./player.component.scss']
 })
 export class PlayerComponent implements OnInit {
-  public player: BardsPlayer;
+  public player: Player;
   public game: BardsGame;
 
   public cachedGame: Game;
-  public cachedPlayer: BardsPlayer;
+  public cachedPlayer: Player;
 
   public canJoinGame: boolean;
 
@@ -30,7 +30,7 @@ export class PlayerComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {
     this.game = {
-      id: null, players: [], type: ""
+      id: null, players: [], type: "", state: "join", code: null
     };
 
     this.player = {
@@ -48,7 +48,7 @@ export class PlayerComponent implements OnInit {
     // found, also the cached game has to be of type 'bards'.
     if (cachedGame && cachedPlayer && cachedGame.type == 'bards') {
       this.cachedGame = cachedGame;
-      this.cachedPlayer = <BardsPlayer>cachedPlayer;
+      this.cachedPlayer = <Player>cachedPlayer;
 
       this.canJoinGame = true;
       return;

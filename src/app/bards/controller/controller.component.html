@@ -9,7 +9,7 @@
 
 <app-starting *ngIf="game && game.state == 'starting'" [game]="game"></app-starting>
 
-<app-playing *ngIf="game && game.state == 'playing'" [game]="game"></app-playing>
+<app-playing *ngIf="game && game.state == 'playing'" [game]="game" (gameStateChanged)="gameStateChanged($event)"></app-playing>
 
 <app-ending *ngIf="game && game.state == 'ending'" [game]="game"></app-ending>
 

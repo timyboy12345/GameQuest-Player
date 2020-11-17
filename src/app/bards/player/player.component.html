@@ -1,4 +1,4 @@
-<app-join *ngIf="(!game || game.id == null) && canJoinGame && !cachedGame" [game]="game" [player]="player"></app-join>
+<app-join *ngIf="(!game || game.state == 'join') && canJoinGame && !cachedGame" [game]="game" [player]="player"></app-join>
 
 <app-cached-game (madeChoice)="madeChoice($event)" *ngIf="canJoinGame && cachedPlayer && cachedGame" [cachedGame]="cachedGame" [cachedPlayer]="cachedPlayer"></app-cached-game>
 

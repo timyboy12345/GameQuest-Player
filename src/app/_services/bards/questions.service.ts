@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import {BardsGame} from "../../_interfaces/bards.interface";
+import {BardsGame} from "../../_interfaces/bards_game.interface";
 import {BardsQuestion} from "../../_interfaces/bards_question.interface";
 
 @Injectable({

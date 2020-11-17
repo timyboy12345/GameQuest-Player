@@ -3,8 +3,8 @@ import * as PN from 'pubnub/dist/web/pubnub.js';
 import * as PubNub from "pubnub";
 import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs";
-import {BardsPlayer} from "../../_interfaces/bards_player.interface";
 import {BardsQuestion} from "../../_interfaces/bards_question.interface";
+import {Player} from "../../_interfaces/player.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +40,7 @@ export class ListenerService {
     })
   }
 
-  public sendQuestion(player: BardsPlayer, question: BardsQuestion, channel: string) {
+  public sendQuestion(player: Player, question: BardsQuestion, channel: string) {
     this.publish({
       player: player,
       question: question,
@@ -48,7 +48,7 @@ export class ListenerService {
     }, channel)
   }
 
-  public playerJoined(player: BardsPlayer, channel: string) {
+  public playerJoined(player: Player, channel: string) {
     return this.publish({
       player: player,
       type: MessageTypes.PLAYER_JOINED
@@ -67,7 +67,7 @@ export class ListenerService {
     }, channel);
   }
 
-  private publish(message: { type?: MessageTypes, question?: BardsQuestion, player?: BardsPlayer }, channel: string) {
+  private publish(message: { type?: MessageTypes, question?: BardsQuestion, player?: Player }, channel: string) {
     return this.pubNub.publish({
       channel: channel,
       message: message

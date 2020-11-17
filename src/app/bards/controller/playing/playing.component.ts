@@ -1,9 +1,8 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {BardsGame} from "../../../_interfaces/bards.interface";
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {BardsGame} from "../../../_interfaces/bards_game.interface";
 import {BardsQuestion} from "../../../_interfaces/bards_question.interface";
 import {Player} from "../../../_interfaces/player.interface";
-import {ListenerService, MessageTypes} from "../../../_services/bards/listener.service";
-import {BardsPlayer} from "../../../_interfaces/bards_player.interface";
+import {ListenerService} from "../../../_services/bards/listener.service";
 import {Subscription} from "rxjs";
 
 @Component({
@@ -14,6 +13,8 @@ import {Subscription} from "rxjs";
 export class PlayingComponent implements OnInit, OnDestroy {
   @Input() game: BardsGame;
 
+  @Output() gameStateChanged = new EventEmitter();
+
   private subscriptions: Subscription[] = [];
 
   public selectedPlayerIndex: number = -1;
@@ -23,7 +24,7 @@ export class PlayingComponent implements OnInit, OnDestroy {
     return this.game.data.questions[this.selectedQuestionIndex];
   }
 
-  get selectedPlayer(): BardsPlayer {
+  get selectedPlayer(): Player {
     return this.game.players[this.selectedPlayerIndex];
   }
 
@@ -71,7 +72,8 @@ export class PlayingComponent implements OnInit, OnDestroy {
   }
 
   public endGame() {
-    this.listenerService.endGame(this.game.id);
-    this.game.state = "ending";
+    this.listenerService.endGame(this.game.id).then(value => {
+      this.gameStateChanged.emit("ending");
+    });
   }
 }

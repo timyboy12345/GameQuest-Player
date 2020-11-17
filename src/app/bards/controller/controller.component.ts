@@ -1,15 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {BardsGame} from "../../_interfaces/bards.interface";
+import {BardsGame} from "../../_interfaces/bards_game.interface";
 import {ListenerService, MessageTypes} from "../../_services/bards/listener.service";
 import {GameService} from "../../_services/game.service";
 import {QuestionService} from "../../_services/bards/question.service";
 import {QuestionsService} from "../../_services/bards/questions.service";
-import {BardQuestionType, BoardQuestionGroupType} from "../../_interfaces/bards_question.interface";
-import {BardsPlayer} from "../../_interfaces/bards_player.interface";
 import {environment} from "../../../environments/environment";
 import {ActivatedRoute} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Game} from "../../_interfaces/game.interface";
+import {Player} from "../../_interfaces/player.interface";
 
 @Component({
   selector: 'app-controller',
@@ -61,7 +60,7 @@ export class ControllerComponent implements OnInit {
       })
   }
 
-  public playerJoined(player: BardsPlayer) {
+  public playerJoined(player: Player) {
     let player_already_joined = false;
 
     this.game.players.forEach(p => {
@@ -91,5 +90,21 @@ export class ControllerComponent implements OnInit {
         }, 1000);
       });
     }
+  }
+
+  public gameStateChanged($event: any) {
+    switch ($event) {
+      case "ending":
+        this.endGame();
+        break;
+    }
+  }
+
+  private endGame() {
+    this.game.state = "ending";
+
+    window.setTimeout(() => {
+      this.game.state = "finished";
+    }, 1000);
   }
 }

@@ -1,34 +1,38 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {BardsGame} from "../../../_interfaces/bards.interface";
-import {BardsQuestion} from "../../../_interfaces/bards_question.interface";
-import {Player} from "../../../_interfaces/player.interface";
-import {ListenerService, MessageTypes} from "../../../_services/bards/listener.service";
-import {BardsPlayer} from "../../../_interfaces/bards_player.interface";
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { BardsGame } from '../../../_interfaces/bards_game.interface';
+import { BardsQuestion } from '../../../_interfaces/bards_question.interface';
+import { Player } from '../../../_interfaces/player.interface';
+import { ListenerService } from '../../../_services/bards/listener.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-playing',
   templateUrl: './playing.component.html',
   styleUrls: ['./playing.component.scss']
 })
-export class PlayingComponent implements OnInit {
+export class PlayingComponent implements OnInit, OnDestroy {
   @Input() game: BardsGame;
 
-  public selectedPlayerIndex: number = -1;
-  public selectedQuestionIndex: number = -1;
+  @Output() gameStateChanged = new EventEmitter();
+
+  private subscriptions: Subscription[] = [];
+
+  public selectedPlayerIndex = -1;
+  public selectedQuestionIndex = -1;
 
   get selectedQuestion(): BardsQuestion {
     return this.game.data.questions[this.selectedQuestionIndex];
   }
 
-  get selectedPlayer(): BardsPlayer {
+  get selectedPlayer(): Player {
     return this.game.players[this.selectedPlayerIndex];
   }
 
-  get questionType() {
+  get questionType(): string {
     return this.selectedQuestion.type.toString();
   }
 
-  get questionGroupType() {
+  get questionGroupType(): string {
     return this.selectedQuestion.groupType.toString();
   }
 
@@ -38,16 +42,24 @@ export class PlayingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listenerService.listen().subscribe(m => {
-      // if (m.message.type == MessageTypes.NEW_QUESTION) {
+    const s = this.listenerService.listen().subscribe(m => {
+      // if (m.message.type === MessageTypes.NEW_QUESTION) {
       //   console.log(m);
       // }
-    })
+    });
+
+    this.subscriptions.push(s);
 
     this.nextQuestion();
   }
 
-  public nextQuestion() {
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(s => {
+      s.unsubscribe();
+    });
+  }
+
+  public nextQuestion(): void {
     if (this.selectedQuestionIndex >= 0 && this.selectedQuestionIndex >= this.game.data.questions.length - 1) {
       return;
     }
@@ -59,8 +71,9 @@ export class PlayingComponent implements OnInit {
     this.listenerService.sendQuestion(this.selectedPlayer, this.selectedQuestion, this.game.id);
   }
 
-  public endGame() {
-    this.listenerService.endGame(this.game.id);
-    this.game.state = "ending";
+  public endGame(): void {
+    this.listenerService.endGame(this.game.id).then(value => {
+      this.gameStateChanged.emit('ending');
+    });
   }
 }

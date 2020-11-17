@@ -1,13 +1,14 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {BardsGame} from "../../../_interfaces/bards.interface";
-import {ListenerService} from "../../../_services/bards/listener.service";
-import {GameService} from "../../../_services/game.service";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BardsGame } from '../../../_interfaces/bards_game.interface';
+import { ListenerService } from '../../../_services/bards/listener.service';
+import { GameService } from '../../../_services/game.service';
 import * as uuid from 'uuid';
-import {BardsPlayer} from "../../../_interfaces/bards_player.interface";
-import {HttpErrorResponse} from "@angular/common/http";
-import {ActivatedRoute, ParamMap} from "@angular/router";
-import {AuthService} from "../../../_services/auth.service";
+import { HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { AuthService } from '../../../_services/auth.service';
+import { Game } from '../../../_interfaces/game.interface';
+import { Player } from '../../../_interfaces/player.interface';
 
 @Component({
   selector: 'app-join',
@@ -16,7 +17,7 @@ import {AuthService} from "../../../_services/auth.service";
 })
 export class JoinComponent implements OnInit {
   @Input() game: BardsGame;
-  @Input() player: BardsPlayer;
+  @Input() player: Player;
 
   joinForm: FormGroup;
 
@@ -40,7 +41,7 @@ export class JoinComponent implements OnInit {
       name: new FormControl('', [
         Validators.required
       ])
-    })
+    });
 
     if (params.has('game_code')) {
       this.joinForm.get('code').setValue(params.get('game_code'));
@@ -51,17 +52,17 @@ export class JoinComponent implements OnInit {
     }
   }
 
-  public submit() {
+  public submit(): void {
     if (!this.joinForm.valid) {
-      console.log("Form is not valid");
+      console.log('Form is not valid');
       return;
     }
 
     this.joinForm.disable();
 
     this.gameService.getByCode(this.joinForm.get('code').value)
-      .then((game: BardsGame) => {
-        const player: BardsPlayer = {
+      .then((game: Game) => {
+        const player: Player = {
           id: uuid.v4(),
           name: this.joinForm.get('name').value
         };
@@ -72,13 +73,17 @@ export class JoinComponent implements OnInit {
           this.game.code = game.code;
           this.game.creator_id = game.creator_id;
           this.game.data = game.data;
+          this.game.type = game.type;
 
           this.player.id = player.id;
           this.player.name = player.name;
 
+          this.gameService.saveGameInCache(this.game as unknown as Game);
+          this.gameService.savePlayerInCache(this.player);
+
           this.listenerService.subscribe(this.game.id);
           this.listenerService.setPlayerUuid(this.player.id);
-        })
+        });
       })
       .catch((e: HttpErrorResponse) => {
         this.joinForm.enable();

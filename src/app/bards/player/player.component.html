@@ -1,4 +1,8 @@
-<app-join *ngIf="!game || game.id == null" [game]="game" [player]="player"></app-join>
+<app-join *ngIf="(!game || game.state == 'join') && canJoinGame && !cachedGame" [game]="game" [player]="player"></app-join>
+
+<app-cached-game (madeChoice)="madeChoice($event)" *ngIf="canJoinGame && cachedPlayer && cachedGame" [cachedGame]="cachedGame" [cachedPlayer]="cachedPlayer"></app-cached-game>
+
+<app-loading *ngIf="!canJoinGame && (!game)"></app-loading>
 
 <app-joined *ngIf="game && game.state == 'queue'"></app-joined>
 
@@ -6,8 +10,12 @@
 
 <app-end *ngIf="game && (game.state == 'ended' || game.state == 'finished')" [game]="game"></app-end>
 
-<div class="fixed m-4 left-0 bottom-0">
-  <div (click)="leaveGame()" class="rounded cursor-pointer bg-red-700 hover:bg-red-800 transition duration-75 text-sm text-white px-2 py-1">
+<div class="fixed p-4 left-0 bottom-0 w-full flex flex-row items-center">
+  <div *ngIf="game.id != null" (click)="leaveGame()" class="rounded cursor-pointer bg-red-700 hover:bg-red-800 transition duration-75 text-sm text-white px-2 py-1">
     Spel verlaten
+  </div>
+
+  <div *ngIf="game.id != null" class="ml-auto pr-1 text-gray-600">
+    {{ game.code }} / {{ game.data.name }}
   </div>
 </div>

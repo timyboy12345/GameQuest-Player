@@ -1,7 +1,8 @@
-import {Component} from '@angular/core';
-import {AuthService} from "./_services/auth.service";
-import {User} from "./_interfaces/user.interface";
-import {animate, style, transition, trigger} from "@angular/animations";
+import { Component } from '@angular/core';
+import { AuthService } from './_services/auth.service';
+import { User } from './_interfaces/user.interface';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -33,20 +34,21 @@ import {animate, style, transition, trigger} from "@angular/animations";
 })
 export class AppComponent {
   public user: User;
+  public version: string = environment.version;
 
   title = 'GameQuest-Player';
-  public navMenuExpanded: boolean = false;
+  public navMenuExpanded = false;
 
   constructor(public authService: AuthService) {
     this.user = authService.user;
   }
 
-  public logout() {
+  public logout(): void {
     this.authService.logout();
     this.navMenuExpanded = false;
   }
 
-  public async login() {
+  public async login(): Promise<void> {
     window.location.href = await this.authService.getAuthUrl();
     this.navMenuExpanded = false;
   }

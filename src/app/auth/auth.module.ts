@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {OauthRedirectComponent} from "./oauth-redirect/oauth-redirect.component";
-import {RouterModule, Routes} from "@angular/router";
+import { OauthRedirectComponent } from './oauth-redirect/oauth-redirect.component';
+import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: "callback",
+    path: 'callback',
     component: OauthRedirectComponent
   }
 ];

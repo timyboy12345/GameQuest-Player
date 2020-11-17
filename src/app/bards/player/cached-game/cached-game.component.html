@@ -1,0 +1,18 @@
+<app-card cardTitle="Spel hervatten?">
+  <p>We hebben een bestaand spel gevonden, met de naam <span class="font-bold">{{ cachedGame.data.name }}</span> en code <span class="font-bold">{{ cachedGame.code }}</span>.</p>
+  <p class="mt-2">In dit spel sta je bekend als <span class="font-bold">{{ cachedPlayer.name }}</span>.</p>
+
+  <div class="flex flex-row">
+    <div
+      class="mr-2 rounded cursor-pointer bg-gray-900 dark:bg-indigo-700 dark:hover:bg-indigo-800 text-white px-4 py-2 mt-4 duration-75 transition-colors"
+      (click)="choose('resume')">
+      Hervatten
+    </div>
+
+    <div
+      class="rounded cursor-pointer bg-gray-900 dark:bg-indigo-700 dark:hover:bg-indigo-800 text-white px-4 py-2 mt-4 duration-75 transition-colors"
+      (click)="choose('restart')">
+      Nieuw spel spelen
+    </div>
+  </div>
+</app-card>

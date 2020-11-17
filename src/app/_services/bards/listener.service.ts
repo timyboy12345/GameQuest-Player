@@ -1,10 +1,11 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as PN from 'pubnub/dist/web/pubnub.js';
-import * as PubNub from "pubnub";
-import {environment} from "../../../environments/environment";
-import {Observable} from "rxjs";
-import {BardsPlayer} from "../../_interfaces/bards_player.interface";
-import {BardsQuestion} from "../../_interfaces/bards_question.interface";
+import * as PubNub from 'pubnub';
+import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
+import { BardsQuestion } from '../../_interfaces/bards_question.interface';
+import { Player } from '../../_interfaces/player.interface';
+import { PublishResponse } from 'pubnub';
 
 @Injectable({
   providedIn: 'root'
@@ -19,11 +20,11 @@ export class ListenerService {
     });
   }
 
-  public setPlayerUuid(uuid: string) {
+  public setPlayerUuid(uuid: string): void {
     this.pubNub.setUUID(uuid);
   }
 
-  public subscribe(channel: string) {
+  public subscribe(channel: string): void {
     this.pubNub.subscribe({
       channels: [channel],
       withPresence: true
@@ -32,52 +33,53 @@ export class ListenerService {
 
   public listen(): Observable<PubNub.MessageEvent> {
     return new Observable((observer) => {
-      this.pubNub.addListener({
-        message(messageEvent) {
-          observer.next(messageEvent);
-        }
-      })
-    })
+      this.pubNub.addListener(
+        {
+          message(messageEvent): void {
+            observer.next(messageEvent);
+          }
+        });
+    });
   }
 
-  public sendQuestion(player: BardsPlayer, question: BardsQuestion, channel: string) {
-    this.publish({
-      player: player,
-      question: question,
-      type: MessageTypes.NEW_QUESTION
-    }, channel)
-  }
-
-  public playerJoined(player: BardsPlayer, channel: string) {
+  public sendQuestion(player: Player, question: BardsQuestion, channel: string): Promise<PublishResponse> {
     return this.publish({
-      player: player,
-      type: MessageTypes.PLAYER_JOINED
-    }, channel)
+      player,
+      question,
+      type: MessageTypes.NEW_QUESTION
+    }, channel);
   }
 
-  public endGame(channel: string) {
+  public playerJoined(player: Player, channel: string): Promise<PublishResponse> {
+    return this.publish({
+      player,
+      type: MessageTypes.PLAYER_JOINED
+    }, channel);
+  }
+
+  public endGame(channel: string): Promise<PublishResponse> {
     return this.publish({
       type: MessageTypes.GAME_ENDED
     }, channel);
   }
 
-  public startGame(channel: string) {
+  public startGame(channel: string): Promise<PublishResponse> {
     return this.publish({
       type: MessageTypes.GAME_STARTED
     }, channel);
   }
 
-  private publish(message: { type?: MessageTypes, question?: BardsQuestion, player?: BardsPlayer }, channel: string) {
+  private publish(message: { type?: MessageTypes, question?: BardsQuestion, player?: Player }, channel: string): Promise<PublishResponse> {
     return this.pubNub.publish({
-      channel: channel,
-      message: message
-    })
+      channel,
+      message
+    });
   }
 }
 
 export enum MessageTypes {
-  "NEW_QUESTION" = "NEW_QUESTION",
-  "PLAYER_JOINED" = "PLAYER_JOINED",
-  "GAME_STARTED" = "GAME_STARTED",
-  "GAME_ENDED" = "GAME_ENDED",
+  'NEW_QUESTION' = 'NEW_QUESTION',
+  'PLAYER_JOINED' = 'PLAYER_JOINED',
+  'GAME_STARTED' = 'GAME_STARTED',
+  'GAME_ENDED' = 'GAME_ENDED',
 }

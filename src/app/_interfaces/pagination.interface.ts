@@ -1,3 +1,4 @@
+/* tslint:disable:variable-name */
 export class Pagination<T> {
   current_page: number;
   first_page_url: string;

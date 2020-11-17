@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {BardsQuestion} from "../../../_interfaces/bards_question.interface";
+import { Component, Input, OnInit } from '@angular/core';
+import { BardsQuestion } from '../../../_interfaces/bards_question.interface';
 
 @Component({
   selector: 'app-question',

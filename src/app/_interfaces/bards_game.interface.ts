@@ -1,11 +1,13 @@
+import { BardsQuestion } from './bards_question.interface';
 import { Player } from './player.interface';
 
-export interface Game {
+export interface BardsGame {
   id: string;
   type: string;
   creator_id?: string;
   data?: {
-    name: string
+    questions?: BardsQuestion[];
+    name?: string;
   };
   state: string;
   code: string;

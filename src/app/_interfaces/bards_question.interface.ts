@@ -7,12 +7,12 @@ export interface BardsQuestion {
 }
 
 export enum BoardQuestionGroupType {
-  PLAYER = "player",
-  INDIVIDUAL = "individual",
-  GROUP = "group",
+  PLAYER = 'player',
+  INDIVIDUAL = 'individual',
+  GROUP = 'group',
 }
 
 export enum BardQuestionType {
-  RED = "red",
-  BLACK = "black",
+  RED = 'red',
+  BLACK = 'black',
 }

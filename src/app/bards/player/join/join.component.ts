@@ -1,14 +1,14 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {BardsGame} from "../../../_interfaces/bards_game.interface";
-import {ListenerService} from "../../../_services/bards/listener.service";
-import {GameService} from "../../../_services/game.service";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BardsGame } from '../../../_interfaces/bards_game.interface';
+import { ListenerService } from '../../../_services/bards/listener.service';
+import { GameService } from '../../../_services/game.service';
 import * as uuid from 'uuid';
-import {HttpErrorResponse} from "@angular/common/http";
-import {ActivatedRoute, ParamMap} from "@angular/router";
-import {AuthService} from "../../../_services/auth.service";
-import {Game} from "../../../_interfaces/game.interface";
-import {Player} from "../../../_interfaces/player.interface";
+import { HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { AuthService } from '../../../_services/auth.service';
+import { Game } from '../../../_interfaces/game.interface';
+import { Player } from '../../../_interfaces/player.interface';
 
 @Component({
   selector: 'app-join',
@@ -41,7 +41,7 @@ export class JoinComponent implements OnInit {
       name: new FormControl('', [
         Validators.required
       ])
-    })
+    });
 
     if (params.has('game_code')) {
       this.joinForm.get('code').setValue(params.get('game_code'));
@@ -52,9 +52,9 @@ export class JoinComponent implements OnInit {
     }
   }
 
-  public submit() {
+  public submit(): void {
     if (!this.joinForm.valid) {
-      console.log("Form is not valid");
+      console.log('Form is not valid');
       return;
     }
 
@@ -78,12 +78,12 @@ export class JoinComponent implements OnInit {
           this.player.id = player.id;
           this.player.name = player.name;
 
-          this.gameService.saveGameInCache(<Game><unknown>this.game);
+          this.gameService.saveGameInCache(this.game as unknown as Game);
           this.gameService.savePlayerInCache(this.player);
 
           this.listenerService.subscribe(this.game.id);
           this.listenerService.setPlayerUuid(this.player.id);
-        })
+        });
       })
       .catch((e: HttpErrorResponse) => {
         this.joinForm.enable();

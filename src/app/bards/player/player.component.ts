@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {ListenerService, MessageTypes} from "../../_services/bards/listener.service";
-import {BardsQuestion, BoardQuestionGroupType} from "../../_interfaces/bards_question.interface";
-import {BardsGame} from "../../_interfaces/bards_game.interface";
-import {GameService} from "../../_services/game.service";
-import {Game} from "../../_interfaces/game.interface";
-import {Player} from "../../_interfaces/player.interface";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ListenerService, MessageTypes } from '../../_services/bards/listener.service';
+import { BardsQuestion, BoardQuestionGroupType } from '../../_interfaces/bards_question.interface';
+import { BardsGame } from '../../_interfaces/bards_game.interface';
+import { GameService } from '../../_services/game.service';
+import { Game } from '../../_interfaces/game.interface';
+import { Player } from '../../_interfaces/player.interface';
 
 @Component({
   selector: 'app-player',
@@ -30,7 +30,7 @@ export class PlayerComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {
     this.game = {
-      id: null, players: [], type: "", state: "join", code: null
+      id: null, players: [], type: '', state: 'join', code: null
     };
 
     this.player = {
@@ -46,11 +46,20 @@ export class PlayerComponent implements OnInit {
 
     // Let player choose whether to resume the game when a cached game and player were
     // found, also the cached game has to be of type 'bards'.
-    if (cachedGame && cachedPlayer && cachedGame.type == 'bards') {
-      this.cachedGame = cachedGame;
-      this.cachedPlayer = <Player>cachedPlayer;
+    if (cachedGame && cachedPlayer && cachedGame.type === 'bards') {
+      // Get the game from the API to check the state
+      this.gameService.get(cachedGame.id).then(g => {
+        if (g.state !== 'ended') {
+          this.cachedGame = cachedGame;
+          this.cachedPlayer = (cachedPlayer as Player);
 
-      this.canJoinGame = true;
+          this.canJoinGame = true;
+        } else {
+          this.canJoinGame = true;
+          this.startListening();
+        }
+      });
+
       return;
     }
 
@@ -58,13 +67,13 @@ export class PlayerComponent implements OnInit {
     this.startListening();
   }
 
-  public resumeCachedGame() {
+  public resumeCachedGame(): void {
     const cachedPlayer = this.cachedPlayer;
     const cachedGame = this.cachedGame;
 
     this.gameService.get(cachedGame.id)
       .then((game) => {
-        if (game.state != 'queue' && game.state != 'starting' && game.state != 'playing') {
+        if (game.state !== 'queue' && game.state !== 'starting' && game.state !== 'playing') {
           this.canJoinGame = true;
           this.cachedGame = null;
           this.cachedPlayer = null;
@@ -72,7 +81,7 @@ export class PlayerComponent implements OnInit {
         }
 
         this.listenerService.playerJoined(cachedPlayer, game.id).then(() => {
-          this.game = <BardsGame><unknown>game;
+          this.game = (game as unknown as BardsGame);
           this.player = cachedPlayer;
 
           this.startListening();
@@ -82,39 +91,39 @@ export class PlayerComponent implements OnInit {
       .catch(() => {
         this.canJoinGame = true;
         this.startListening();
-      })
+      });
   }
 
-  public startListening() {
+  public startListening(): void {
     this.listenerService.listen().subscribe(value => {
       console.log(value);
 
-      if (value.message.type == MessageTypes.NEW_QUESTION) {
+      if (value.message.type === MessageTypes.NEW_QUESTION) {
         this.question = null;
 
-        if ((value.message.player && value.message.player.id == this.player.id) || (<BardsQuestion>value.message.question).groupType == BoardQuestionGroupType.GROUP) {
+        if ((value.message.player && value.message.player.id === this.player.id) || (value.message.question as BardsQuestion).groupType === BoardQuestionGroupType.GROUP) {
           this.question = value.message.question;
         }
       }
 
-      if (value.message.type == MessageTypes.GAME_STARTED) {
+      if (value.message.type === MessageTypes.GAME_STARTED) {
         this.question = null;
         this.game.state = 'playing';
       }
 
-      if (value.message.type == MessageTypes.GAME_ENDED) {
+      if (value.message.type === MessageTypes.GAME_ENDED) {
         this.question = null;
         this.game.state = 'ended';
       }
-    })
+    });
   }
 
   public leaveGame(): void {
-    this.router.navigate(["home"]);
+    // this.router.navigate(["home"]);
   }
 
-  public madeChoice(choice: string) {
-    if (choice == 'resume') {
+  public madeChoice(choice: string): void {
+    if (choice === 'resume') {
       this.resumeCachedGame();
       this.cachedPlayer = null;
       this.cachedGame = null;

@@ -1,5 +1,5 @@
-import {BardsQuestion} from "./bards_question.interface";
-import {Player} from "./player.interface";
+import { BardsQuestion } from './bards_question.interface';
+import { Player } from './player.interface';
 
 export interface BardsGame {
   id: string;

@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as PN from 'pubnub/dist/web/pubnub.js';
-import * as PubNub from "pubnub";
-import {environment} from "../../../environments/environment";
-import {Observable} from "rxjs";
-import {BardsQuestion} from "../../_interfaces/bards_question.interface";
-import {Player} from "../../_interfaces/player.interface";
+import * as PubNub from 'pubnub';
+import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
+import { BardsQuestion } from '../../_interfaces/bards_question.interface';
+import { Player } from '../../_interfaces/player.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -36,23 +36,23 @@ export class ListenerService {
         message(messageEvent) {
           observer.next(messageEvent);
         }
-      })
-    })
+      });
+    });
   }
 
   public sendQuestion(player: Player, question: BardsQuestion, channel: string) {
     this.publish({
-      player: player,
-      question: question,
+      player,
+      question,
       type: MessageTypes.NEW_QUESTION
-    }, channel)
+    }, channel);
   }
 
   public playerJoined(player: Player, channel: string) {
     return this.publish({
-      player: player,
+      player,
       type: MessageTypes.PLAYER_JOINED
-    }, channel)
+    }, channel);
   }
 
   public endGame(channel: string) {
@@ -69,15 +69,15 @@ export class ListenerService {
 
   private publish(message: { type?: MessageTypes, question?: BardsQuestion, player?: Player }, channel: string) {
     return this.pubNub.publish({
-      channel: channel,
-      message: message
-    })
+      channel,
+      message
+    });
   }
 }
 
 export enum MessageTypes {
-  "NEW_QUESTION" = "NEW_QUESTION",
-  "PLAYER_JOINED" = "PLAYER_JOINED",
-  "GAME_STARTED" = "GAME_STARTED",
-  "GAME_ENDED" = "GAME_ENDED",
+  'NEW_QUESTION' = 'NEW_QUESTION',
+  'PLAYER_JOINED' = 'PLAYER_JOINED',
+  'GAME_STARTED' = 'GAME_STARTED',
+  'GAME_ENDED' = 'GAME_ENDED',
 }
